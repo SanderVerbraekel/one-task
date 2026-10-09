@@ -39,6 +39,8 @@ A 10-minute task finished in 15 minutes loses 10 points. The same task finished 
 
 Local browser only. No API keys. Deployment is not part of this proof. The submission still needs a short screen recording and a public GitHub repository. The recording is of this local page.
 
+Public repository: https://github.com/SanderVerbraekel/one-task
+
 From the project folder:
 
 ```
