@@ -147,6 +147,15 @@ input:focus-visible {
   white-space: nowrap;
 }
 
+#finish-task {
+  margin-top: 1.35rem;
+  width: 100%;
+}
+
+.task-card .message {
+  margin: 1rem 0 0;
+}
+
 form {
   display: flex;
   flex-direction: column;

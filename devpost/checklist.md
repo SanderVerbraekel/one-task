@@ -9,7 +9,7 @@ Build mode: fast
 
 ## Slices
 
-- [ ] **1. You set your focus and the app shows one fitting task**
+- [x] **1. You set your focus and the app shows one fitting task**
   Becomes usable: You open the page, set a focus score, add tasks with your own effort and a time estimate, and see only one task — the shortest one that matches your focus. Any other task stays hidden. Closing the page keeps the tasks, and the next open asks for focus again. The task stands out on its own card. The blue-to-red gauge tracks the focus score.
   Why now: This is the first half of the kernel — one task, chosen from focus and effort, pool hidden — and the page, sticky note, and look have to exist for that to be tryable. The finish-and-score moment needs a task already on screen, so it comes second. `crypto.randomUUID` is checked once here, as the spec asked.
   PRD ref: `prd.md > The Core Journey` (steps 1–4), `prd.md > Setting focus on startup`, `prd.md > Adding a task`, `prd.md > The one task on screen`, `prd.md > Choosing which task appears` (first task of the day), `prd.md > States and Boundaries`, `prd.md > Look and Feel`
@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Open the app, set your focus, add two tasks with different effort, and say whether the one task on screen is the one you expected — and whether the screen feels cozy rather than like an office list.
   Commit: `Show one task chosen from focus`
 
-- [ ] **2. Finishing a task moves your focus and brings the next one**
+- [x] **2. Finishing a task moves your focus and brings the next one**
   Becomes usable: You press "Task finished." The score rises or falls by 2 points per minute versus the estimate, stays between 1 and 100, and the next task appears at once. After the first finish today, that next task is a random one of the effort the new score calls for, or the other effort if that group is empty. When nothing unfinished is left, you see the button to add a task again.
   Why now: This is the moment the proof depends on, and it only works after a task is already on screen with a start time. The random pick is the other branch of the same chooser, so it belongs with the score update rather than in a separate plumbing step.
   PRD ref: `prd.md > The Core Journey` (steps 5–8), `prd.md > Finishing a task and the focus score`, `prd.md > Choosing which task appears` (after "Task finished")
@@ -31,7 +31,7 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after slice 1, before the finish-and-score slice
+- [x] Early usable behavior explored — after slice 1, before the finish-and-score slice
 - [ ] Final kick-the-tires exploration and feedback completed
 
 ## Final Review

@@ -92,6 +92,14 @@ function normalize(data) {
   };
 }
 
+function scoreAfterFinish(focusScore, estimateMinutes, spentMinutes) {
+  const points = (estimateMinutes - spentMinutes) * 2;
+  const next = focusScore + points;
+  if (next < 1) return 1;
+  if (next > 100) return 100;
+  return next;
+}
+
 function validateTask(detail, effort, estimateRaw) {
   const problems = [];
   if (!detail.trim()) {
@@ -125,11 +133,13 @@ const taskForm = document.querySelector('#task-form');
 const taskText = document.querySelector('#task-text');
 const estimateInput = document.querySelector('#estimate');
 const formError = document.querySelector('#form-error');
+const finishError = document.querySelector('#finish-error');
 
 let state = emptyState();
 let storageBroken = false;
 let screen = 'slider';
 let currentId = null;
+let finishNote = '';
 
 function load() {
   try {
@@ -161,6 +171,8 @@ function persist() {
 
 function render() {
   storageError.hidden = !storageBroken;
+  finishError.hidden = finishNote === '';
+  finishError.textContent = finishNote;
   screenSlider.hidden = screen !== 'slider';
   screenTask.hidden = screen !== 'task';
   screenForm.hidden = screen !== 'form';
@@ -192,7 +204,47 @@ function placeFocusMarker(score) {
   gauge.setAttribute('aria-valuenow', String(score));
 }
 
+function finishTask() {
+  const task = state.tasks.find(function (item) {
+    return item.id === currentId && item.finishedAt == null;
+  });
+  if (!task) return;
+
+  if (task.shownAt == null) {
+    finishNote = 'This finish could not be timed. Try again.';
+    render();
+    return;
+  }
+
+  const previous = JSON.parse(JSON.stringify(state));
+  const previousId = currentId;
+  const spentMinutes = Math.round((Date.now() - task.shownAt) / 60000);
+  state.focusScore = scoreAfterFinish(state.focusScore, task.estimateMinutes, spentMinutes);
+  task.finishedAt = Date.now();
+  state.finishedOn = todayString(new Date());
+
+  const picked = pickTask(state, new Date());
+  if (picked) {
+    picked.shownAt = Date.now();
+    currentId = picked.id;
+  } else {
+    currentId = null;
+  }
+
+  finishNote = '';
+  if (!persist()) {
+    state = previous;
+    currentId = previousId;
+    render();
+    return;
+  }
+
+  screen = 'task';
+  render();
+}
+
 function showMyTask() {
+  finishNote = '';
   state.focusScore = Number(focusSlider.value);
   if (!persist()) {
     render();
@@ -222,6 +274,7 @@ function showMyTask() {
 }
 
 function openForm() {
+  finishNote = '';
   taskForm.reset();
   formError.hidden = true;
   formError.textContent = '';
@@ -279,6 +332,7 @@ focusSlider.addEventListener('input', function () {
 });
 
 document.querySelector('#show-task').addEventListener('click', showMyTask);
+document.querySelector('#finish-task').addEventListener('click', finishTask);
 document.querySelector('#add-first').addEventListener('click', openForm);
 addAnother.addEventListener('click', openForm);
 document.querySelector('#cancel-add').addEventListener('click', function () {
