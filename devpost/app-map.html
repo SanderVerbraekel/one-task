@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One Task — app map</title>
+  <style>
+    :root {
+      --cream: #f3e4cf;
+      --paper: #fff8ef;
+      --ink: #5c4033;
+      --muted: #8a6a56;
+      --line: #e0d0c2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    h1, h2 {
+      font-family: Palatino, "Palatino Linotype", Georgia, serif;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    h1 { font-size: 2.2rem; margin: 0 0 0.75rem; }
+    h2 { font-size: 1.45rem; margin: 2rem 0 0.6rem; }
+
+    p, li { font-size: 1.05rem; }
+    a { color: #8a3b2c; }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.92em;
+      background: #f6efe6;
+      padding: 0.05rem 0.3rem;
+      border-radius: 0.3rem;
+    }
+
+    .flow {
+      list-style: none;
+      margin: 1rem 0 0;
+      padding: 0;
+    }
+
+    .flow li {
+      background: var(--paper);
+      border-radius: 1rem;
+      padding: 0.9rem 1rem;
+      margin: 0;
+    }
+
+    .flow li + li { margin-top: 0.55rem; }
+
+    .flow li + li::before {
+      content: "↓";
+      display: block;
+      margin: -0.7rem 0 0.35rem;
+      color: var(--muted);
+    }
+
+    .where { color: var(--muted); margin: 0.2rem 0 0; }
+
+    .note {
+      background: var(--paper);
+      border-radius: 1rem;
+      padding: 1rem 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>One Task</h1>
+    <p>One task on screen. The rest stay hidden in this browser. Pressing “Task finished” moves the focus score, then the next task appears.</p>
+    <p>Run it again from the project folder with <code>python -m http.server 8765</code>, then open <a href="http://127.0.0.1:8765/">http://127.0.0.1:8765/</a>. This map describes commit <code>ae74a3f</code>. It is a snapshot and can drift if the code changes.</p>
+
+    <h2>Press “Task finished”</h2>
+    <p>This route is a reference. It was not walked in the editor.</p>
+    <ol class="flow">
+      <li>
+        <strong>The button</strong>
+        <p class="where"><code>index.html</code> — <code>#finish-task</code></p>
+        <p>The press starts in the task card. Nothing else on the page is a list of tasks.</p>
+      </li>
+      <li>
+        <strong>The clock and the save</strong>
+        <p class="where"><code>app.js</code> — <code>finishTask</code>, then <code>persist</code></p>
+        <p><code>finishTask</code> measures the gap from <code>shownAt</code> to now with <code>Date.now()</code>, rounds it to the nearest minute, and writes the pool back to <code>localStorage</code> under the key <code>one-task</code>.</p>
+      </li>
+      <li>
+        <strong>The new score and the next task</strong>
+        <p class="where"><code>app.js</code> — <code>scoreAfterFinish</code>, <code>pickTask</code>, <code>render</code>, <code>placeFocusMarker</code></p>
+        <p>Each minute under the estimate adds 2 points. Each minute over subtracts 2. The score stays between 1 and 100. <code>pickTask</code> chooses the next task, and <code>placeFocusMarker</code> moves the gauge to the new number.</p>
+      </li>
+    </ol>
+
+    <h2>To change this, start here</h2>
+    <ul>
+      <li>Score math: <code>scoreAfterFinish</code> in <code>app.js</code>.</li>
+      <li>Which task appears: <code>pickTask</code> and <code>effortForScore</code> in <code>app.js</code>.</li>
+      <li>The words on the card: <code>#task-detail</code> and the “Your task” label in <code>index.html</code>.</li>
+      <li>Where the gauge marker sits: <code>placeFocusMarker</code> in <code>app.js</code>.</li>
+      <li>What survives a reload: <code>load</code>, <code>persist</code>, and <code>STORAGE_KEY</code> in <code>app.js</code>.</li>
+    </ul>
+
+    <h2>A practice to reuse</h2>
+    <div class="note">
+      <p><code>spec.md</code> → Decisions and Open Issues chose <code>localStorage</code> and <code>Date.now()</code>, and not a database or a timer library, because the page only has to remember one pool and two times.</p>
+      <p>The check was concrete. <code>scoreAfterFinish(50, 10, 15)</code> returns 40. On the page, finishing a 1-minute task at focus 80 showed 82, then a task of the other effort.</p>
+      <p>On another project, name the job first, pick the smallest tool that does that job, and check one result you can see.</p>
+    </div>
+  </main>
+</body>
+</html>

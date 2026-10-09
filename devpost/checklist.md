@@ -32,23 +32,25 @@ Build mode: fast
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — after slice 1, before the finish-and-score slice
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
 
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Final review complete — feedback resolved and learner confirms ready to ship
+
+No changes requested. The learner tried the full loop, said it looks good, and confirmed the proof of concept is ready.
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
+- [x] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: [what actually happened; real document/test/code references; unfinished work if interrupted]
-Route and stops: [actual paths and symbols; guided stops completed, or reference-only route]
-Edit outcome: [tried/kept/reverted/declined/not applicable; verification if changed]
-Reflection: [offered/answered/declined/already covered — personal answer belongs only in the ignored profile]
-Activity mode: [live app and editor, explicit static fallback, focused alternative, prior practice, or recap]
+Activity and evidence: Brief recap of a decision already recorded in `spec.md > Decisions and Open Issues`: `localStorage` and `Date.now()`, not a database or a timer library. Build evidence: `scoreAfterFinish(50, 10, 15)` returned 40, and finishing a 1-minute task at focus 80 showed 82 and the other-effort task.
+Route and stops: Reference route only, not walked live. `index.html` `#finish-task` → `app.js` `finishTask` → `app.js` `scoreAfterFinish` and `pickTask` → `app.js` `render` and `placeFocusMarker`.
+Edit outcome: not applicable
+Reflection: offered
+Activity mode: recap
 
 ## Revisions
 
