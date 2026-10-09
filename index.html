@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One Task</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <p id="storage-error" class="message" hidden>Tasks cannot be kept in this browser.</p>
+
+    <section id="screen-slider" class="screen">
+      <h1>How focused are you?</h1>
+      <p class="score-readout" id="slider-value">50</p>
+      <label class="slider-label" for="focus-slider">From 1 to 100</label>
+      <input id="focus-slider" type="range" min="1" max="100" value="50">
+      <button type="button" id="show-task">Show my task</button>
+    </section>
+
+    <section id="screen-task" class="screen" hidden>
+      <article id="task-card" class="task-card">
+        <p class="eyebrow">Your task</p>
+        <h1 id="task-detail" class="task-title"></h1>
+        <p id="task-effort"></p>
+        <div class="focus-meter">
+          <div class="gauge" id="gauge" role="meter" aria-valuemin="1" aria-valuemax="100" aria-valuenow="50" aria-label="Focus">
+            <span id="gauge-marker" class="marker"></span>
+          </div>
+          <p class="focus-readout">Focus <span id="focus-score"></span></p>
+        </div>
+      </article>
+      <div id="empty-pool">
+        <button type="button" id="add-first">Add your first task</button>
+      </div>
+      <button type="button" id="add-another" class="quiet">Add a task</button>
+    </section>
+
+    <section id="screen-form" class="screen" hidden>
+      <h1>Add a task</h1>
+      <form id="task-form" novalidate>
+        <label for="task-text">What is the task?</label>
+        <input id="task-text" name="detail" type="text" autocomplete="off">
+
+        <fieldset>
+          <legend>Effort</legend>
+          <label><input type="radio" name="effort" value="low"> low effort</label>
+          <label><input type="radio" name="effort" value="high"> high effort</label>
+        </fieldset>
+
+        <label for="estimate">How long, in minutes?</label>
+        <input id="estimate" name="estimate" type="text" inputmode="numeric" autocomplete="off">
+
+        <p id="form-error" class="message" hidden></p>
+
+        <div class="actions">
+          <button type="submit">Save</button>
+          <button type="button" id="cancel-add" class="quiet">Cancel</button>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
